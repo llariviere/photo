@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="theme-dark">
+<html class="">
   <head>
     <!-- Required meta tags-->
     <meta charset="utf-8">
@@ -8,14 +8,14 @@
     <!-- Color theme for statusbar -->
     <meta name="theme-color" content="#2196f3">
     <!-- Your app title -->
-    <title>My App</title>
+    <title>B.i.z</title>
     <!-- Path to Framework7 Library Bundle CSS -->
     <link rel="stylesheet" href="css/framework7.bundle.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/app.css">
   </head>
-  <body class="theme-dark color-theme-gray">
+  <body class="color-theme-gray">
     <!-- App root element -->
     <div id="app">
       <!-- Statusbar overlay -->
@@ -33,21 +33,15 @@
             </div>
           </div>
 
-          <!-- Bottom Toolbar -->
-          <div class="toolbar toolbar-bottom">
-            <div class="toolbar-inner">
-              <!-- Toolbar links -->
-              <a href="#" class="link">Link 1</a>
-              <a href="#" class="link">Link 2</a>
-            </div>
-          </div>
-
           <!-- Scrollable page content -->
           <div class="page-content">
-            <div class="block" id="card-photo"></div>
+            <div class="block" id="card-photo">
+            	<img src="" alt="" id="card-photo-front" class="front">
+            	<img src="" alt="" id="card-photo-back" class="back hidden">
+            </div>
             <div class="block">
 				  <p class="segmented">
-				    <button class="col button button-outline button-large card-side front"><i class="fa fa-address-card fa-lg"></i> Front</button>
+				    <button class="col button button-outline button-large card-side front selected"><i class="fa fa-address-card fa-lg"></i> Front</button>
 				    <button class="col button button-outline button-large card-side back"><i class="fa fa-credit-card fa-lg"></i> Back</button>
 				  </p>
 				  <p class="row">
@@ -56,10 +50,10 @@
 				  <p class="row">
 				    <button class="col button button-outline button-large">Choose photo from file</button>
 				  </p>
-				  <p class="row">
+				  <p class="row hidden">
 				    <button class="col button button-outline button-large">Save for later</button>
 				  </p>
-				  <p class="row">
+				  <p class="row hidden">
 				    <button class="col button button-outline button-large">Transfer to card</button>
 				  </p>
 				</div>
@@ -67,9 +61,8 @@
         </div>
       </div>
     </div>
-    <!-- Path to Framework7 Library Bundle JS-->
+    <script type="text/javascript" src="cordova.js"></script>    
     <script type="text/javascript" src="js/framework7.bundle.min.js"></script>
-    <!-- Path to your app js-->
     <script type="text/javascript" src="js/app.js"></script>
   </body>
 </html>
