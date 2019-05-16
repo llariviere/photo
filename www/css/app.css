@@ -13,7 +13,8 @@
 }
 
 #card-photo > img {
-	width: 100%;
+	width: calc(100vw * 1.5);
+	height: 100%;
 }
 
 .hidden {
