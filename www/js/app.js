@@ -32,13 +32,18 @@ $$(".button.card-side").on("click", function(){
 	$$(this).addClass("selected");
 	B.card_side = ($$(this).hasClass("front") ? 'front' : 'back');
 	$$("span.card-side").text(B.card_side);
+	$$("#card-photo > img").addClass("hidden");
+	$$("#card-photo > img."+B.card_side).removeClass("hidden");`
 });
 
 	$$("#capturePhoto").on("click", capturePhoto);
+	$$("#retreiveCard").on("click", retreiveCard);
 	
 	function setOptions(srcType) {
 	    var options = {
 	        quality: 50,
+	        targetHeight: 1024,
+	        targetWidth: 1024,
 	        destinationType: Camera.DestinationType.FILE_URI,
 	        sourceType: srcType,
 	        encodingType: Camera.EncodingType.JPEG,
@@ -47,6 +52,15 @@ $$(".button.card-side").on("click", function(){
 	        correctOrientation: true  //Corrects Android orientation quirks
 	    }
 	    return options;
+	}
+	
+	function retreiveCard() {
+		var options = setOptions(Camera.PictureSourceType.SAVEDPHOTOALBUM);
+		navigator.camera.getPicture(onRetreived, onFail, options);
+	}
+	
+	function onRetreived(imageUri) {
+		$$('#card-photo-'+B.card_side).attr("src", imageUri);
 	}
 
 	function capturePhoto() {
@@ -63,6 +77,7 @@ $$(".button.card-side").on("click", function(){
 	//Callback function when the picture has been successfully taken
 	function onSuccess(imageUri) {
 	    $$('#card-photo-'+B.card_side).attr("src", imageUri);
+	    $$("#retreiveCard, #saveCard, #processCard").parent().toggleClass("hidden");
 	}
 	
 	//Callback function when the picture has not been successfully taken
