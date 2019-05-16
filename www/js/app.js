@@ -38,6 +38,7 @@ $$(".button.card-side").on("click", function(){
 
 	$$("#capturePhoto").on("click", capturePhoto);
 	$$("#retreiveCard").on("click", retreiveCard);
+	$$("#saveCard").on("click", saveCard);
 	
 	function setOptions(srcType) {
 	    var options = {
@@ -54,17 +55,55 @@ $$(".button.card-side").on("click", function(){
 	    return options;
 	}
 	
+	function saveCard() {
+		var ImageUri = { 
+			front:$$('#card-photo-front').attr("src"),
+			back:$$('#card-photo-back').attr("src")
+		}
+		var dirName = new Date();
+
+		if (ImageUri.front) {
+			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
+	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
+	          console.log("folder create");
+	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
+	              console.log("move to file..");
+	              fileEntry.moveTo(directory, "front.png", successMove, onFail);
+	          }, onFail);
+	        }, onFail);
+			}, onFail);
+		}
+		
+		if (ImageUri.back) {
+			window.resolveLocalFileSystemURL(ImageUri.back, function (fileEntry) {
+	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
+	          console.log("folder create");
+	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
+	              console.log("move to file..");
+	              fileEntry.moveTo(directory, "back.png", successMove, onFail);
+	          }, onFail);
+	        }, onFail);
+			}, onFail);
+		}
+	}
+	
+	//Callback function when the file has been moved successfully - inserting the complete path
+	function successMove(entry) {
+	    //I do my insert with "entry.fullPath" as for the path
+	    app.dialog.alert(entry.fullPath)
+	}
+	
 	function retreiveCard() {
-		var options = setOptions(Camera.PictureSourceType.SAVEDPHOTOALBUM);
+		var options = setOptions(Camera.PictureSourceType.PHOTOLIBRARY);
 		navigator.camera.getPicture(onRetreived, onFail, options);
 	}
 	
 	function onRetreived(imageUri) {
 		$$('#card-photo-'+B.card_side).attr("src", imageUri);
+	    $$("#retreiveCard, #saveCard, #processCard").parent().toggleClass("hidden");
 	}
 
 	function capturePhoto() {
-	// Take picture using device camera and retrieve image as base64-encoded string
 	    if (typeof Camera === "undefined") {
 			app.dialog.alert("No camera available");
 	    }
@@ -74,97 +113,11 @@ $$(".button.card-side").on("click", function(){
 	    }
 	}
 	
-	//Callback function when the picture has been successfully taken
 	function onSuccess(imageUri) {
 	    $$('#card-photo-'+B.card_side).attr("src", imageUri);
 	    $$("#retreiveCard, #saveCard, #processCard").parent().toggleClass("hidden");
 	}
 	
-	//Callback function when the picture has not been successfully taken
 	function onFail(message) {
-	    app.dialog.alert('Failed to load picture because: ' + message);
+	    app.dialog.alert('Failed because: ' + message);
 	}
-	
-	function movePic(file){ 
-	    window.resolveLocalFileSystemURI(file, resolveOnSuccess, resOnError); 
-	} 
-	
-	//Callback function when the file system uri has been resolved
-	function resolveOnSuccess(entry){
-	    var d = new Date();
-	    var n = d.getTime();
-	    //new file name
-	    var newFileName = n + ".jpg";
-	    var myFolderApp = "biz";
-	
-	    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {      
-	    	//The folder is created if doesn't exist
-	    	fileSys.root.getDirectory( myFolderApp,
-		 		{create:true, exclusive: false},
-			 function(directory) {
-				entry.moveTo(directory, newFileName,  successMove, resOnError);
-			 },
-		 	resOnError);
-		 },
-	    resOnError);
-	}
-	
-	//Callback function when the file has been moved successfully - inserting the complete path
-	function successMove(entry) {
-	    //I do my insert with "entry.fullPath" as for the path
-	}
-	
-	function resOnError(error) {
-	    app.dialog.alert(error.code);
-	}
-
-
-/*
-    navigator.camera.getPicture(options).then(movePic,function(imageData) {
-        $rootScope.imageUpload=imageData;
-    }, function(err) {
-        console.error(err);
-    });
-
-    function movePic(imageData){
-        console.log("move pic");
-        console.log(imageData);
-        window.resolveLocalFileSystemURL(imageData, resolveOnSuccess, resOnError);
-    }
-
-    function resolveOnSuccess(entry){
-        console.log("resolvetosuccess");
-
-        //new file name
-        var newFileName = itemID + ".jpg";
-        var myFolderApp = "ImgFolder";
-
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
-            console.log("folder create");
-
-            //The folder is created if doesn't exist
-            fileSys.root.getDirectory( myFolderApp,
-                {create:true, exclusive: false},
-                function(directory) {
-                    console.log("move to file..");
-                    entry.moveTo(directory, newFileName,  successMove, resOnError);
-                    console.log("release");
-
-                },
-                resOnError);
-        },
-        resOnError);
-    }
-
-    function successMove(entry) {
-        //I do my insert with "entry.fullPath" as for the path
-        console.log("success");
-        //this is file path, customize your path
-        console.log(entry);
-    }
-
-    function resOnError(error) {
-        console.log("failed"+error);
-        app.dialog.alert(error.code);
-    }
-*/
