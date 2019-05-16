@@ -33,7 +33,7 @@ $$(".button.card-side").on("click", function(){
 	B.card_side = ($$(this).hasClass("front") ? 'front' : 'back');
 	$$("span.card-side").text(B.card_side);
 	$$("#card-photo > img").addClass("hidden");
-	$$("#card-photo > img."+B.card_side).removeClass("hidden");`
+	$$("#card-photo > img."+B.card_side).removeClass("hidden");
 });
 
 	$$("#capturePhoto").on("click", capturePhoto);
