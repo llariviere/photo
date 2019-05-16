@@ -13,7 +13,7 @@
 }
 
 #card-photo > img {
-	width: calc(100vw * 1.5);
+	width: calc(100vh * 1.5);
 	height: 100%;
 }
 
