@@ -63,8 +63,8 @@ $$(".button.card-side").on("click", function(){
 		var dirName = new Date();
 
 		if (ImageUri.front) {
-			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
-	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
+			cordova.file.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
+	        cordova.file.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
 	          console.log("folder create");
 	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
 	              console.log("move to file..");
@@ -75,8 +75,8 @@ $$(".button.card-side").on("click", function(){
 		}
 		
 		if (ImageUri.back) {
-			window.resolveLocalFileSystemURL(ImageUri.back, function (fileEntry) {
-	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
+			cordova.file.resolveLocalFileSystemURL(ImageUri.back, function (fileEntry) {
+	        cordova.file.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
 	          console.log("folder create");
 	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
 	              console.log("move to file..");
