@@ -1,8 +1,16 @@
 {
     "name": "com.biz.photo",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "displayName": "Biz-Photo"
+    "displayName": "Biz-Photo",
+    "dependencies": {
+        "cordova-plugin-file": "^6.0.1"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-file": {}
+        }
+    }
 }
