@@ -20,4 +20,5 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Orientation" value="portrait" />
     <plugin name="cordova-plugin-camera" source="npm" spec="~2.4.1" />
+    <plugin name="cordova-plugin-file" spec="4.3.3" />
 </widget>
