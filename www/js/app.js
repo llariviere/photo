@@ -64,13 +64,13 @@ $$(".button.card-side").on("click", function(){
 		var dirName = nowName.toString();
 
 		if (ImageUri.front) {
-	          window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
-	          window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
-	          console.log("folder create");
+			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
+	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
+	          console.log("creating folder...");
 	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
 	              console.log("move to file..");
 	              fileEntry.moveTo(directory, "front.png", successMove, onFail);
-	          }, onFail);
+	          }, onFailo);
 	        }, onFail);
 			}, onFail);
 		}
@@ -82,7 +82,7 @@ $$(".button.card-side").on("click", function(){
 	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
 	              console.log("move to file..");
 	              fileEntry.moveTo(directory, "back.png", successMove, onFail);
-	          }, onFail);
+	          }, onFail0);
 	        }, onFail);
 			}, onFail);
 		}
@@ -121,4 +121,9 @@ $$(".button.card-side").on("click", function(){
 	
 	function onFail(message) {
 	    app.dialog.alert('Failed because: ' + message);
+	}
+	
+	function onFail0(message) {
+	    app.dialog.alert('Failed "fileSys.root.getDirectory": ');
+	    console.log(message)
 	}
