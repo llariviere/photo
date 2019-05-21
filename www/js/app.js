@@ -70,7 +70,7 @@ $$(".button.card-side").on("click", function(){
 	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
 	              console.log("move to file..");
 	              fileEntry.moveTo(directory, "front.png", successMove, onFail);
-	          }, onFailo);
+	          }, onFail0);
 	        }, onFail);
 			}, onFail);
 		}
