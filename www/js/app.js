@@ -60,7 +60,8 @@ $$(".button.card-side").on("click", function(){
 			front:$$('#card-photo-front').attr("src"),
 			back:$$('#card-photo-back').attr("src")
 		}
-		var dirName = new Date();
+		var nowName = new Date();
+		var dirName = nowName.toString();
 
 		if (ImageUri.front) {
 	          window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
