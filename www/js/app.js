@@ -67,12 +67,11 @@ $$(".button.card-side").on("click", function(){
 			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
           console.log("resolving fs...");
           console.log(fileEntry);
-	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
+	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024*1024, function(fileSys) {
 	          console.log("creating folder...");
-	          console.log(fileSys);
-	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
+	          fileSys.root.getDirectory( dirName, {create:true}, function(dirEntry) {
 	              console.log("move to file..");
-	              fileEntry.moveTo(directory, "front.png", successMove, onFail);
+	              fileEntry.moveTo(dirEntry, "front.png"); // , successMove, onFail1
 	          }, onFail0);
 	        }, onFail);
 			}, onFail);
@@ -129,5 +128,10 @@ $$(".button.card-side").on("click", function(){
 	
 	function onFail0(message) {
 	    app.dialog.alert('Failed "fileSys.root.getDirectory": ');
+	    console.log(message)
+	}
+	
+	function onFail1(message) {
+	    app.dialog.alert('Failed "fileEntry.moveTo": ');
 	    console.log(message)
 	}
