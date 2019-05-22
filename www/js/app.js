@@ -67,7 +67,7 @@ $$(".button.card-side").on("click", function(){
 			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
           console.log("resolving fs...");
           console.log(fileEntry);
-	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024*1024, function(fileSys) {
+	        window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
 	          console.log("creating folder...");
 	          fileSys.root.getDirectory( dirName, {create:true}, function(dirEntry) {
 	              console.log("move to file..");
