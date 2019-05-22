@@ -47,7 +47,7 @@ $$(".button.card-side").on("click", function(){
 	        targetWidth: 1024,
 	        destinationType: Camera.DestinationType.FILE_URI,
 	        sourceType: srcType,
-	        encodingType: Camera.EncodingType.JPEG,
+	        encodingType: Camera.EncodingType.PNG,
 	        mediaType: Camera.MediaType.PICTURE,
 	        allowEdit: false,
 	        correctOrientation: true  //Corrects Android orientation quirks
@@ -65,8 +65,11 @@ $$(".button.card-side").on("click", function(){
 
 		if (ImageUri.front) {
 			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
+          console.log("resolving fs...");
+          console.log(fileEntry);
 	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
 	          console.log("creating folder...");
+	          console.log(fileSys);
 	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
 	              console.log("move to file..");
 	              fileEntry.moveTo(directory, "front.png", successMove, onFail);
@@ -78,7 +81,8 @@ $$(".button.card-side").on("click", function(){
 		if (ImageUri.back) {
 			window.resolveLocalFileSystemURL(ImageUri.back, function (fileEntry) {
 	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
-	          console.log("folder create");
+	          console.log("folder create : ");
+	          console.log(fileSys);
 	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
 	              console.log("move to file..");
 	              fileEntry.moveTo(directory, "back.png", successMove, onFail);
