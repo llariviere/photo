@@ -8,7 +8,7 @@
 	margin-right: auto;
 	border: solid 1px rgba(150,150,150,1);
 	height: 200px;
-	width: calc(100% - 30px);
+	width: 300px;
 	border-radius: 5px;
 }
 
