@@ -60,8 +60,8 @@ $$(".button.card-side").on("click", function(){
 			front:$$('#card-photo-front').attr("src"),
 			back:$$('#card-photo-back').attr("src")
 		}
-		var nowName = new Date();
-		var dirName = nowName.toString();
+		var now = new Date();
+		B.dirname = now.toString();
 
 		if (ImageUri.front) {
 			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
@@ -69,7 +69,7 @@ $$(".button.card-side").on("click", function(){
           console.log(fileEntry);
 	        window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
 	          console.log("creating folder...");
-	          fileSys.root.getDirectory( 'un', {create:true, exclusive: false}, function(dirEntry) {
+	          fileSys.root.getDirectory( B.dirname, {create:true, exclusive: false}, function(dirEntry) {
 	              console.log("move to file..");
 	              fileEntry.moveTo(dirEntry, "front.png"); // , successMove, onFail1
 	          }, onFail0);
