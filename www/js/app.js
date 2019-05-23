@@ -60,7 +60,7 @@ $$(".button.card-side").on("click", function(){
 			front:$$('#card-photo-front').attr("src"),
 			back:$$('#card-photo-back').attr("src")
 		}
-		var now = new Date();
+		var now = Date.now();
 		B.dirname = now.toString();
 
 		if (ImageUri.front) {
@@ -71,7 +71,10 @@ $$(".button.card-side").on("click", function(){
 	          console.log("creating folder...");
 	          fileSys.root.getDirectory( B.dirname, {create:true, exclusive: false}, function(dirEntry) {
 	              console.log("move to file..");
-	              fileEntry.moveTo(dirEntry, "front.png"); // , successMove, onFail1
+	              fileEntry.moveTo(dirEntry, "front.png", function(){
+	              		// On liste le contenu...
+	              		window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, onInitFs, onFail);
+	              }, onFail1);
 	          }, onFail0);
 	        }, onFail);
 			}, onFail);
@@ -135,3 +138,21 @@ $$(".button.card-side").on("click", function(){
 	    app.dialog.alert('Failed "fileEntry.moveTo": ');
 	    console.log(message)
 	}
+	
+	function onInitFs(fs) {
+	
+	  var dirReader = fs.root.createReader();
+	  var entries = [];
+	
+	  // Call the reader.readEntries() until no more results are returned.
+	  var readEntries = function() {
+	     dirReader.readEntries (function(results) {
+	      console.log(results);
+	      readEntries();
+	    }, errorHandler);
+	  };
+	
+	  readEntries(); // Start reading dirs.
+	
+	}
+	
