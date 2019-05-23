@@ -69,7 +69,7 @@ $$(".button.card-side").on("click", function(){
           console.log(fileEntry);
 	        window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
 	          console.log("creating folder...");
-	          fileSys.root.getDirectory( dirName, {create:true}, function(dirEntry) {
+	          fileSys.root.getDirectory( 'un', {create:true, exclusive: false}, function(dirEntry) {
 	              console.log("move to file..");
 	              fileEntry.moveTo(dirEntry, "front.png"); // , successMove, onFail1
 	          }, onFail0);
