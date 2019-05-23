@@ -73,7 +73,7 @@ $$(".button.card-side").on("click", function(){
 	              console.log("move to file..");
 	              fileEntry.moveTo(dirEntry, "front.png", function(){
 	              		// On liste le contenu...
-	              		window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, onInitFs, onFail);
+	              		window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, readFs, onFail);
 	              }, onFail1);
 	          }, onFail0);
 	        }, onFail);
@@ -139,20 +139,13 @@ $$(".button.card-side").on("click", function(){
 	    console.log(message)
 	}
 	
-	function onInitFs(fs) {
+	function readFs(fs) {
 	
 	  var dirReader = fs.root.createReader();
 	  var entries = [];
 	
-	  // Call the reader.readEntries() until no more results are returned.
-	  var readEntries = function() {
-	     dirReader.readEntries (function(results) {
-	      console.log(results);
-	      readEntries();
-	    }, onFail);
-	  };
-	
-	  readEntries(); // Start reading dirs.
-	
+	  dirReader.readEntries (function(results) {
+       console.log(results);
+     }, onFail	);
 	}
 	
