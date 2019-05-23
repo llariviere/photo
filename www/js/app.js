@@ -156,9 +156,8 @@ $$(".button.card-side").on("click", function(){
 			   }, onFail);
 		  	 }
 	  	 	});
-	  	 });
 	  	 
        console.log(results);
-     }
+	  	 });
 	}
 	
