@@ -159,6 +159,6 @@ $$(".button.card-side").on("click", function(){
 	  	 });
 	  	 
        console.log(results);
-     }, onFail	);
+     }
 	}
 	
