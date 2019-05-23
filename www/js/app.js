@@ -149,7 +149,7 @@ $$(".button.card-side").on("click", function(){
 	     dirReader.readEntries (function(results) {
 	      console.log(results);
 	      readEntries();
-	    }, errorHandler);
+	    }, onFail);
 	  };
 	
 	  readEntries(); // Start reading dirs.
