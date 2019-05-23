@@ -145,6 +145,19 @@ $$(".button.card-side").on("click", function(){
 	  var entries = [];
 	
 	  dirReader.readEntries (function(results) {
+	  	 $$.each(results, function(dirEntry){
+	  	 	if(dirEntry.isDirectory()) {
+				fs.root.getFile(dirEntry.name+'/front.png', {}, function(fileEntry) {
+					if (isNaN(result.name) ) {
+				     fileEntry.remove();
+					} else {
+						console.log()
+					}
+			   }, onFail);
+		  	 }
+	  	 	}
+	  	 });
+	  	 
        console.log(results);
      }, onFail	);
 	}
