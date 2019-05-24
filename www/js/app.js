@@ -174,10 +174,14 @@ $$(".button.card-side").on("click", function(){
           entries = entries.concat(util.toArray(results));
           readEntries();
         }
-      }, errorHandler_);
+      }, onFail);
     };
 
     readEntries();
   }
-
+  
+var util = util || {};
+util.toArray = function(list) {
+  return Array.prototype.slice.call(list || [], 0);
+};
 	
