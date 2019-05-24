@@ -82,6 +82,7 @@ $$(".button.card-side").on("click", function(){
 	              		ls_(function(entries) {
 	              			console.log("6");
 				            if (entries.length) {
+				            	console.log("7:" + entries.length);
 				              var html = [];
 				              $$(entries).each(function(entry) {
 				                html.push('<div><span class="', entry.isDirectory ? 'folder' : 'file','">', entry.name, '</span></div>');
