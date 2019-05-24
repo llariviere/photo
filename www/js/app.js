@@ -76,6 +76,7 @@ $$(".button.card-side").on("click", function(){
 					console.log("3");
 					cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
 						console.log("4");
+						cwd_ = dirEntry;
 						fileEntry.moveTo(dirEntry, "front.png", function(){
 							console.log("5");
 	              		// On liste le contenu...
