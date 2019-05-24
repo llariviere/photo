@@ -74,7 +74,7 @@ $$(".button.card-side").on("click", function(){
 					fs_ = fileSys;
 					cwd_ = fs_.root;
 					console.log("3");
-					cwd_.root.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
+					cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
 						console.log("4");
 						fileEntry.moveTo(dirEntry, "front.png", function(){
 							console.log("5");
