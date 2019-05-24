@@ -68,28 +68,22 @@ $$(".button.card-side").on("click", function(){
 
 		if (ImageUri.front) {
 			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
-          console.log("resolving fs...");
-          console.log(fileEntry);
-	        window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
-	          console.log("creating folder...");
-	          fileSys.root.getDirectory( B.dirname, {create:true, exclusive: false}, function(dirEntry) {
-	              console.log("move to file..");
-	              fileEntry.moveTo(dirEntry, "front.png", function(){
+				window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
+					fileSys.root.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
+						fileEntry.moveTo(dirEntry, "front.png", function(){
 	              		// On liste le contenu...
 	              		window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, ls_(function(entries) {
 				            if (entries.length) {
 				              var html = "";
 				              $$(entries).each(function(entry) {
-				                html.push(
-				                    '<div><span class="', entry.isDirectory ? 'folder' : 'file',
-				                    '">', entry.name, '</span></div>');
+				                html.push('<div><span class="', entry.isDirectory ? 'folder' : 'file','">', entry.name, '</span></div>');
 				              });
 				              $$("#output").html(html.join(''));
 				            }
-				          });, onFail);
-	              }, onFail1);
-	          }, onFail0);
-	        }, onFail);
+				         }), onFail1);
+						}, onFail);
+					}, onFail);
+				}, onFail);
 			}, onFail);
 		}
 		
@@ -177,3 +171,5 @@ $$(".button.card-side").on("click", function(){
 
     readEntries();
   }
+
+	
