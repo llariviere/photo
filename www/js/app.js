@@ -67,12 +67,18 @@ $$(".button.card-side").on("click", function(){
 		B.dirname = now.toString();
 
 		if (ImageUri.front) {
+			console.log("1");
 			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
+				console.log("2");
 				window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
+					console.log("3");
 					fileSys.root.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
+						console.log("4");
 						fileEntry.moveTo(dirEntry, "front.png", function(){
+							console.log("5");
 	              		// On liste le contenu...
 	              		window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, ls_(function(entries) {
+	              			console.log("6");
 				            if (entries.length) {
 				              var html = "";
 				              $$(entries).each(function(entry) {
@@ -81,7 +87,7 @@ $$(".button.card-side").on("click", function(){
 				              $$("#output").html(html.join(''));
 				            }
 				         }), onFail1);
-						}, onFail);
+						}, onFail0);
 					}, onFail);
 				}, onFail);
 			}, onFail);
