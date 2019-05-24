@@ -85,9 +85,10 @@ $$(".button.card-side").on("click", function(){
 				            	console.log("7:" + entries.length);
 				            	console.log(entries);
 				              var html = [];
-				              $$(entries).each(function(entry) {
+				              for(var i=0; i<entries.length; i++) {
+				              	 var entry = entries[i];
 				                html.push('<div><span class="', entry.isDirectory ? 'folder' : 'file','">', entry.name, '</span></div>');
-				              });
+				              }
 				              $$("#output").html(html.join(''));
 				            }
 				         });
