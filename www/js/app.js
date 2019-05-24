@@ -27,6 +27,9 @@ var B = {
 	card_side:"front"
 };
 
+var fs_ = null;
+var cwd_ = null;
+  
 $$(".button.card-side").on("click", function(){
 	$$(".button.card-side").removeClass("selected");
 	$$(this).addClass("selected");
@@ -73,7 +76,17 @@ $$(".button.card-side").on("click", function(){
 	              console.log("move to file..");
 	              fileEntry.moveTo(dirEntry, "front.png", function(){
 	              		// On liste le contenu...
-	              		window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, readFs, onFail);
+	              		window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, ls_(function(entries) {
+				            if (entries.length) {
+				              var html = "";
+				              $$(entries).each(function(entry) {
+				                html.push(
+				                    '<div><span class="', entry.isDirectory ? 'folder' : 'file',
+				                    '">', entry.name, '</span></div>');
+				              });
+				              $$("#output").html(html.join(''));
+				            }
+				          });, onFail);
 	              }, onFail1);
 	          }, onFail0);
 	        }, onFail);
@@ -139,25 +152,28 @@ $$(".button.card-side").on("click", function(){
 	    console.log(message)
 	}
 	
-	function readFs(fs) {
-	
-	  var dirReader = fs.root.createReader();
-	  var entries = [];
-	
-	  dirReader.readEntries (function(results) {
-	  	 $$.each(results, function(dirEntry){
-	  	 	if(dirEntry.isDirectory()) {
-				fs.root.getFile(dirEntry.name+'/front.png', {}, function(fileEntry) {
-					if (isNaN(result.name) ) {
-				     fileEntry.remove();
-					} else {
-						console.log()
-					}
-			   }, onFail);
-		  	 }
-	  	 	});
-	  	 
-       console.log(results);
-	  	 });
-	}
-	
+	function ls_(successCallback) {
+    if (!fs_) {
+      return;
+    }
+
+    // Read contents of current working directory. According to spec, need to
+    // keep calling readEntries() until length of result array is 0. We're
+    // guarenteed the same entry won't be returned again.
+    var entries = [];
+    var reader = cwd_.createReader();
+
+    var readEntries = function() {
+      reader.readEntries(function(results) {
+        if (!results.length) {
+          entries = entries.sort();
+          successCallback(entries);
+        } else {
+          entries = entries.concat(util.toArray(results));
+          readEntries();
+        }
+      }, errorHandler_);
+    };
+
+    readEntries();
+  }
