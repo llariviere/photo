@@ -82,11 +82,11 @@ $$(".button.card-side").on("click", function(){
 	              		ls_(function(entries) {
 	              			console.log("6");
 				            if (entries.length) {
-				              var txt = "";
+				              var html = [];
 				              $$(entries).each(function(entry) {
-				                txt.push('<div><span class="', entry.isDirectory ? 'folder' : 'file','">', entry.name, '</span></div>');
+				                html.push('<div><span class="', entry.isDirectory ? 'folder' : 'file','">', entry.name, '</span></div>');
 				              });
-				              $$("#output").html(txt.join(''));
+				              $$("#output").html(html.join(''));
 				            }
 				         });
 						}, onFail0);
