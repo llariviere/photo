@@ -122,14 +122,15 @@ $$(".button.card-side").on("click", function(){
 
 					cwd_.getDirectory(dirname, {}, function(dirEntry) {
 						cwd_ = dirEntry;
+						var frontfile = '', backfile = '';
 						ls_(function(file_entries) {
 							if (file_entries.length) {
 								for(var i=0; i<file_entries.length; i++) {
-									if(i) var frontfile = file_entries[i].nativeURL;
-									else var backfile = file_entries[i].nativeURL;
+									if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
+									if(file_entries[i].name=="back.png") backfile = file_entries[i].nativeURL;
 								}
 							}
-      				});
+      						});
 					}, onFail);
 					var date = new Date(parseInt(dirname));
 					
