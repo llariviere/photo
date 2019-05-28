@@ -30,10 +30,6 @@ var B = {
 B.fs_ = null;
 B.cwd_ = null;
 
-(function() {
-	
-})();
-
 $$(".button.card-side").on("click", function(){
 	$$(".button.card-side").removeClass("selected");
 	$$(this).addClass("selected");
@@ -84,7 +80,7 @@ $$(".button.card-side").on("click", function(){
 					}, onFail);
 				}, onFail);
 			}, onFail);
-			$$('#card-photo-front').css("background-image:none");
+			$$('#card-photo-front').css({"background-image:none"});
 		}
 		
 		if (ImageUri.back) {
@@ -100,7 +96,7 @@ $$(".button.card-side").on("click", function(){
 		         }, onFail);
 				}, onFail);
 			}, onFail);
-			$$('#card-photo-back').css("background-image:none");
+			$$('#card-photo-back').css({"background-image:none"});
 		}
 	}
 	
@@ -193,7 +189,7 @@ $$(".button.card-side").on("click", function(){
 	}
 	
 	function onSuccess(imageUri) {
-	    $$('#card-photo-'+B.card_side).css("background-image:url("+imageUri+")");
+	    $$('#card-photo-'+B.card_side).css({"background-image:url("+imageUri+")"});
 	    $$("#retreivePhoto, #savePhoto, #processCard").parent().toggleClass("hidden");
 	}
 	
