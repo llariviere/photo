@@ -40,8 +40,8 @@ $$(".button.card-side").on("click", function(){
 });
 
 	$$("#capturePhoto").on("click", capturePhoto);
-	$$("#retreiveCard").on("click", retreiveCard);
-	$$("#saveCard").on("click", saveCard);
+	$$("#retreivePhoto").on("click", retreivePhoto);
+	$$("#savePhoto").on("click", savePhoto);
 	
 	function setOptions(srcType) {
 	    var options = {
@@ -58,7 +58,7 @@ $$(".button.card-side").on("click", function(){
 	    return options;
 	}
 	
-	function saveCard() {
+	function savePhoto() {
 		var ImageUri = { 
 			front:$$('#card-photo-front').attr("src"),
 			back:$$('#card-photo-back').attr("src")
@@ -79,24 +79,6 @@ $$(".button.card-side").on("click", function(){
 						cwd_ = dirEntry;
 						fileEntry.moveTo(dirEntry, "front.png", function(){
 							console.log("5");
-	              		// On liste le contenu...
-	              		ls_(function(entries) {
-	              			console.log("6");
-				            if (entries.length) {
-				            	console.log("7:" + entries.length);
-				            	console.log(entries);
-				              var html = [];
-				              for(var i=0; i<entries.length; i++) {
-				              	 var entry = entries[i];
-				              	 if (entry.isFile) {
-				              	 	html.push('<div><img src="'+entry.nativeURL+'" /></div>');
-				              	 } else {
-				              	 	html.push('<div><span class="', entry.isDirectory ? 'folder' : 'file','">', entry.name, '</span></div>');
-				              	 }
-				              }
-				              $$("#output").html(html.join(''));
-				            }
-				         });
 						}, onFail0);
 					}, onFail);
 				}, onFail);
@@ -123,14 +105,81 @@ $$(".button.card-side").on("click", function(){
 	    app.dialog.alert(entry.fullPath)
 	}
 	
-	function retreiveCard() {
+	function retreivePhoto() {
+		cwd_ = fs_.root;
+		var html = [];
+  		// On liste les dossiers...
+  		ls_(function(dir_entries) {
+         if (dir_entries.length) {
+           
+           for(var i=0; i<dir_entries.length; i++) {
+           	 var entry = dir_entries[i];
+           	 if (entry.isFile) {
+           	 	// html.push('<div><img src="'+entry.nativeURL+'" /></div>');
+           	 } else {
+           	 	//html.push('<div><span class="">', entry.name, '</span></div>');
+           	 	var dirname = entry.name;
+
+					cwd_.getDirectory(dirname, {}, function(dirEntry) {
+						cwd_ = dirEntry;
+						ls_(function(file_entries) {
+							if (file_entries.length) {
+								for(var i=0; i<file_entries.length; i++) {
+									if(i) var frontfile = file_entries[i].nativeURL;
+									else var backfile = file_entries[i].nativeURL;
+								}
+							}
+      				});
+					}, onFail);
+					var date = new Date(parseInt(dirname));
+					
+					html.push('<li>\
+			  <a href="#" onClick="loadPhoto('+dirname+')" class="item-link item-content">\
+				 <div class="item-inner">\
+					<div class="item-title">\
+						<div class="item-header">'+date.toString()+'</div>\
+					</div>\
+			    	<div class="item-media"><img src="'+frontfile+'" height="80"/></div>\
+			    	<div class="item-media"><img src="'+backfile+'" height="80"/></div>\
+			    </div>\
+			  </a>\
+			</li>')
+
+           	 }
+           }
+         }
+      });
+				         
+		var dynamicPopup = app.popup.create({
+		  content: 
+'<div class="popup">\
+	<div class="block">\
+		<p>Popup created dynamically.</p>\
+		<p><a href="#" class="link popup-close">Close</a></p>\
+	</div>\
+	<div class="list">\
+		<ul>'+html.join('')+'</ul>\
+	</div>\
+</div>',
+		  // Events
+		  on: {
+		    open: function (popup) {
+		      console.log('Popup open');
+		    },
+		    opened: function (popup) {
+		      console.log('Popup opened');
+		    },
+		  }
+		});
+	}
+	function retreivePhoto0() {
 		var options = setOptions(Camera.PictureSourceType.PHOTOLIBRARY);
 		navigator.camera.getPicture(onRetreived, onFail, options);
 	}
 	
 	function onRetreived(imageUri) {
 		$$('#card-photo-'+B.card_side).attr("src", imageUri);
-	    $$("#retreiveCard, #saveCard, #processCard").parent().toggleClass("hidden");
+	    $$("#retreivePhoto, #savePhoto, #processCard").parent().toggleClass("hidden");
 	}
 
 	function capturePhoto() {
@@ -145,7 +194,7 @@ $$(".button.card-side").on("click", function(){
 	
 	function onSuccess(imageUri) {
 	    $$('#card-photo-'+B.card_side).attr("src", imageUri);
-	    $$("#retreiveCard, #saveCard, #processCard").parent().toggleClass("hidden");
+	    $$("#retreivePhoto, #savePhoto, #processCard").parent().toggleClass("hidden");
 	}
 	
 	function onFail(message) {
