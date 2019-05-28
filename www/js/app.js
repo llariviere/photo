@@ -95,7 +95,7 @@ $$(".button.card-side").on("click", function(){
 						}, onFail0);
 		         }, onFail);
 				}, onFail);
-			}, onFail);/
+			}, onFail);
 			$$('#card-photo-back').css({"background-image":"none"});
 		}
 	}
