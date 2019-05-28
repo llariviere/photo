@@ -27,8 +27,12 @@ var B = {
 	card_side:"front"
 };
 
-var fs_ = null;
-var cwd_ = null;
+B.fs_ = null;
+B.cwd_ = null;
+window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
+	B.fs_ = fileSys;
+	B.cwd_ = fs_.root;
+}, onFail);
   
 $$(".button.card-side").on("click", function(){
 	$$(".button.card-side").removeClass("selected");
@@ -60,8 +64,8 @@ $$(".button.card-side").on("click", function(){
 	
 	function savePhoto() {
 		var ImageUri = { 
-			front:$$('#card-photo-front').attr("src"),
-			back:$$('#card-photo-back').attr("src")
+			front:$$('#card-photo-front').css("background-image").replace(")","").replace("url(",""),
+			back:$$('#card-photo-back').css("background-image").replace(")","").replace("url(","")
 		}
 		var now = Date.now();
 		B.dirname = now.toString();
@@ -69,44 +73,33 @@ $$(".button.card-side").on("click", function(){
 		if (ImageUri.front) {
 			console.log("1");
 			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
-				console.log("2");
-				window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
-					fs_ = fileSys;
-					cwd_ = fs_.root;
-					console.log("3");
-					cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
-						console.log("4");
-						cwd_ = dirEntry;
-						fileEntry.moveTo(dirEntry, "front.png", function(){
-							console.log("5");
-						}, onFail0);
-					}, onFail);
+				B.cwd_ = B.fs_.root;
+				B.cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
+					B.cwd_ = dirEntry;
+					fileEntry.moveTo(dirEntry, "front.png", function(){
+						console.log("front.png moved!");
+					}, onFail0);
 				}, onFail);
 			}, onFail);
+			$$('#card-photo-front').css("background-image:none").
 		}
 		
 		if (ImageUri.back) {
 			window.resolveLocalFileSystemURL(ImageUri.back, function (fileEntry) {
-	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
-	          console.log("folder create : ");
-	          console.log(fileSys);
-	          fileSys.root.getDirectory( dirName, {create:true, exclusive: false}, function(directory) {
-	              console.log("move to file..");
-	              fileEntry.moveTo(directory, "back.png", successMove, onFail);
-	          }, onFail0);
-	        }, onFail);
+				B.cwd_ = B.fs_.root;
+				B.cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
+					B.cwd_ = dirEntry;
+					fileEntry.moveTo(dirEntry, "back.png", function(){
+						console.log("back.png moved!");
+					}, onFail0);
+	         }, onFail);
 			}, onFail);
+			$$('#card-photo-back').css("background-image:none").
 		}
 	}
 	
-	//Callback function when the file has been moved successfully - inserting the complete path
-	function successMove(entry) {
-	    //I do my insert with "entry.fullPath" as for the path
-	    app.dialog.alert(entry.fullPath)
-	}
-	
 	function retreivePhoto() {
-		cwd_ = fs_.root;
+		B.cwd_ = B.fs_.root;
 		var html = [];
   		// On liste les dossiers...
   		ls_(function(dir_entries) {
@@ -118,30 +111,30 @@ $$(".button.card-side").on("click", function(){
            	 	// html.push('<div><img src="'+entry.nativeURL+'" /></div>');
            	 } else {
            	 	//html.push('<div><span class="">', entry.name, '</span></div>');
-           	 	var dirname = entry.name;
+           	 	B.dirname = entry.name;
 
-					cwd_.getDirectory(dirname, {}, function(dirEntry) {
-						cwd_ = dirEntry;
-						var frontfile = '', backfile = '';
+					B.cwd_.getDirectory(B.dirname, {}, function(dirEntry) {
+						B.cwd_ = dirEntry;
+						B.frontfile = '', B.backfile = '';
 						ls_(function(file_entries) {
 							if (file_entries.length) {
 								for(var i=0; i<file_entries.length; i++) {
-									if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
-									if(file_entries[i].name=="back.png") backfile = file_entries[i].nativeURL;
+									if(file_entries[i].name=="front.png") B.frontfile = file_entries[i].nativeURL;
+									if(file_entries[i].name=="back.png") B.backfile = file_entries[i].nativeURL;
 								}
 							}
-      						});
+      				});
 					}, onFail);
-					var date = new Date(parseInt(dirname));
+					var date = new Date(parseInt(B.dirname));
 					
 					html.push('<li>\
-			  <a href="#" onClick="loadPhoto('+dirname+')" class="item-link item-content">\
+			  <a href="#" onClick="loadPhoto('+B.dirname+')" class="item-link item-content">\
 				 <div class="item-inner">\
 					<div class="item-title">\
 						<div class="item-header">'+date.toString()+'</div>\
 					</div>\
-			    	<div class="item-media"><img src="'+frontfile+'" height="80"/></div>\
-			    	<div class="item-media"><img src="'+backfile+'" height="80"/></div>\
+			    	<div class="item-media"><img src="'+B.frontfile+'" height="80"/></div>\
+			    	<div class="item-media"><img src="'+B.backfile+'" height="80"/></div>\
 			    </div>\
 			  </a>\
 			</li>')
@@ -194,7 +187,7 @@ $$(".button.card-side").on("click", function(){
 	}
 	
 	function onSuccess(imageUri) {
-	    $$('#card-photo-'+B.card_side).attr("src", imageUri);
+	    $$('#card-photo-'+B.card_side).css("background-image:url("+imageUri+")");
 	    $$("#retreivePhoto, #savePhoto, #processCard").parent().toggleClass("hidden");
 	}
 	
@@ -213,7 +206,7 @@ $$(".button.card-side").on("click", function(){
 	}
 	
 	function ls_(successCallback) {
-    if (!fs_) {
+    if (!B.fs_) {
       return;
     }
 
@@ -221,7 +214,7 @@ $$(".button.card-side").on("click", function(){
     // keep calling readEntries() until length of result array is 0. We're
     // guarenteed the same entry won't be returned again.
     var entries = [];
-    var reader = cwd_.createReader();
+    var reader = B.cwd_.createReader();
 
     var readEntries = function() {
       reader.readEntries(function(results) {
