@@ -36,8 +36,8 @@
           <!-- Scrollable page content -->
           <div class="page-content">
             <div class="block" id="card-photo">
-            	<img src="" alt="" id="card-photo-front" class="front">
-            	<img src="" alt="" id="card-photo-back" class="back hidden">
+            	<div id="card-photo-front" class="front"></div>
+            	<div id="card-photo-back" class="back hidden"></div>
             </div>
             <div class="block">
 				  <p class="segmented">
@@ -48,13 +48,16 @@
 				    <button class="col button button-outline button-large" id="capturePhoto">Take photo of <b><span class="card-side">front</span></b></button>
 				  </p>
 				  <p class="row">
-				    <button class="col button button-outline button-large" id="retreiveCard">Choose photo from file</button>
+				    <button class="col button button-outline button-large" id="retreivePhoto">Choose photo from file</button>
 				  </p>
 				  <p class="row hidden">
-				    <button class="col button button-outline button-large" id="saveCard">Save for later</button>
+				    <button class="col button button-outline button-large" id="savePhoto">Save for later</button>
 				  </p>
 				  <p class="row hidden">
-				    <button class="col button button-outline button-large" id="processCard">Transfer to card</button>
+				    <button class="col button button-outline button-large" id="processPhoto">Transfer to card</button>
+				  </p>
+				  <p class="row">
+				    <button class="col button button-outline button-large" id="cancelPhoto">Cancel</button>
 				  </p>
 				</div>
             <div class="block" id="output"></div>
