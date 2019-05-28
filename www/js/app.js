@@ -29,11 +29,11 @@ var B = {
 
 B.fs_ = null;
 B.cwd_ = null;
-window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
-	B.fs_ = fileSys;
-	B.cwd_ = fs_.root;
-}, onFail);
-  
+
+(function() {
+	
+})();
+
 $$(".button.card-side").on("click", function(){
 	$$(".button.card-side").removeClass("selected");
 	$$(this).addClass("selected");
@@ -73,28 +73,34 @@ $$(".button.card-side").on("click", function(){
 		if (ImageUri.front) {
 			console.log("1");
 			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
-				B.cwd_ = B.fs_.root;
-				B.cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
-					B.cwd_ = dirEntry;
-					fileEntry.moveTo(dirEntry, "front.png", function(){
-						console.log("front.png moved!");
-					}, onFail0);
+				window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
+					B.fs_ = fileSys;
+					B.cwd_ = fs_.root;
+					B.cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
+						B.cwd_ = dirEntry;
+						fileEntry.moveTo(dirEntry, "front.png", function(){
+							console.log("front.png moved!");
+						}, onFail0);
+					}, onFail);
 				}, onFail);
 			}, onFail);
-			$$('#card-photo-front').css("background-image:none").
+			$$('#card-photo-front').css("background-image:none");
 		}
 		
 		if (ImageUri.back) {
 			window.resolveLocalFileSystemURL(ImageUri.back, function (fileEntry) {
-				B.cwd_ = B.fs_.root;
-				B.cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
-					B.cwd_ = dirEntry;
-					fileEntry.moveTo(dirEntry, "back.png", function(){
-						console.log("back.png moved!");
-					}, onFail0);
-	         }, onFail);
+				window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
+					B.fs_ = fileSys;
+					B.cwd_ = fs_.root;
+					B.cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
+						B.cwd_ = dirEntry;
+						fileEntry.moveTo(dirEntry, "back.png", function(){
+							console.log("back.png moved!");
+						}, onFail0);
+		         }, onFail);
+				}, onFail);
 			}, onFail);
-			$$('#card-photo-back').css("background-image:none").
+			$$('#card-photo-back').css("background-image:none");
 		}
 	}
 	
