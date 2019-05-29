@@ -67,35 +67,38 @@ $$(".button.card-side").on("click", function(){
 		B.dirname = now.toString();
 
 		if (ImageUri.front) {
-			console.log("1");
+			console.log("1 : "+ImageUri.front);
 			window.resolveLocalFileSystemURL(ImageUri.front, function (fileEntry) {
+				console.log("2");
 				window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
 					B.fs_ = fileSys;
-					B.cwd_ = fs_.root;
+					B.cwd_ = B.fs_.root;
+					console.log("3");
 					B.cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
 						B.cwd_ = dirEntry;
 						fileEntry.moveTo(dirEntry, "front.png", function(){
 							console.log("front.png moved!");
 						}, onFail0);
-					}, onFail);
-				}, onFail);
-			}, onFail);
+					}, onFail1);
+				}, onFail2);
+			}, onFail3);
 			$$('#card-photo-front').css({"background-image":"none"});
 		}
 		
 		if (ImageUri.back) {
+			console.log("1 : "+ImageUri.back);
 			window.resolveLocalFileSystemURL(ImageUri.back, function (fileEntry) {
 				window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
 					B.fs_ = fileSys;
-					B.cwd_ = fs_.root;
+					B.cwd_ = B.fs_.root;
 					B.cwd_.getDirectory(B.dirname, {create:true, exclusive: false}, function(dirEntry) {
 						B.cwd_ = dirEntry;
 						fileEntry.moveTo(dirEntry, "back.png", function(){
 							console.log("back.png moved!");
 						}, onFail0);
-		         }, onFail);
-				}, onFail);
-			}, onFail);
+		         }, onFail1);
+				}, onFail2);
+			}, onFail3);
 			$$('#card-photo-back').css({"background-image":"none"});
 		}
 	}
@@ -198,12 +201,22 @@ $$(".button.card-side").on("click", function(){
 	}
 	
 	function onFail0(message) {
-	    app.dialog.alert('Failed "fileSys.root.getDirectory": ');
+	    app.dialog.alert('Failed "fileEntry.moveTo"');
 	    console.log(message)
 	}
 	
 	function onFail1(message) {
-	    app.dialog.alert('Failed "fileEntry.moveTo": ');
+	    app.dialog.alert('Failed "B.cwd_.getDirectory"');
+	    console.log(message)
+	}
+	
+	function onFail2(message) {
+	    app.dialog.alert('Failed "requestFileSystem"');
+	    console.log(message)
+	}
+	
+	function onFail3(message) {
+	    app.dialog.alert('Failed "resolveLocalFileSystemURL"');
 	    console.log(message)
 	}
 	
