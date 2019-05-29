@@ -100,6 +100,7 @@ $$(".button.card-side").on("click", function(){
 				}, onFail2);
 			}, onFail3);
 			$$('#card-photo-back').attr("src","");
+	   	$$("#retreivePhoto, #savePhoto, #processPhoto").parent().toggleClass("hidden");
 		}
 	}
 	
@@ -109,7 +110,7 @@ $$(".button.card-side").on("click", function(){
   		// On liste les dossiers...
   		ls_(function(dir_entries) {
          if (dir_entries.length) {
-           
+           console.log("dir_entries.length = "+dir_entries.length)
            for(var i=0; i<dir_entries.length; i++) {
            	 var entry = dir_entries[i];
            	 if (entry.isFile) {
@@ -146,6 +147,9 @@ $$(".button.card-side").on("click", function(){
 
            	 }
            }
+         } 
+         else {
+	         console.log("No entries...")
          }
       });
 				         
@@ -246,8 +250,8 @@ $$(".button.card-side").on("click", function(){
     readEntries();
   }
   
-var util = util || {};
-util.toArray = function(list) {
-  return Array.prototype.slice.call(list || [], 0);
-};
+	var util = util || {};
+	util.toArray = function(list) {
+	  return Array.prototype.slice.call(list || [], 0);
+	};
 	
