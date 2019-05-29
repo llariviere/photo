@@ -78,11 +78,14 @@ $$(".button.card-side").on("click", function(){
 						B.cwd_ = dirEntry;
 						fileEntry.moveTo(dirEntry, "front.png", function(){
 							console.log("front.png moved!");
+							$$('#card-photo-front').attr("src","");
+					   	$$("#savePhoto, #processPhoto").parent().addClass("hidden");
+					   	$$("#retreivePhoto").parent().removeClass("hidden");
 						}, onFail0);
 					}, onFail1);
 				}, onFail2);
 			}, onFail3);
-			$$('#card-photo-front').attr("src","");
+			
 		}
 		
 		if (ImageUri.back) {
@@ -95,12 +98,13 @@ $$(".button.card-side").on("click", function(){
 						B.cwd_ = dirEntry;
 						fileEntry.moveTo(dirEntry, "back.png", function(){
 							console.log("back.png moved!");
+							$$('#card-photo-back').attr("src","");
+					   	$$("#savePhoto, #processPhoto").parent().addClass("hidden");
+					   	$$("#retreivePhoto").parent().removeClass("hidden");
 						}, onFail0);
 		         }, onFail1);
 				}, onFail2);
 			}, onFail3);
-			$$('#card-photo-back').attr("src","");
-	   	$$("#retreivePhoto, #savePhoto, #processPhoto").parent().toggleClass("hidden");
 		}
 	}
 	
@@ -184,17 +188,17 @@ $$(".button.card-side").on("click", function(){
 	         console.log("No entries...")
          }
       });
-				         
-		
 	}
+	
 	function retreivePhoto0() {
 		var options = setOptions(Camera.PictureSourceType.PHOTOLIBRARY);
 		navigator.camera.getPicture(onRetreived, onFail, options);
 	}
 	
 	function onRetreived(imageUri) {
-		$$('#card-photo-'+B.card_side).attr("src", imageUri);
-	    $$("#retreivePhoto, #savePhoto, #processCard").parent().toggleClass("hidden");
+		 $$('#card-photo-'+B.card_side).attr("src", imageUri);
+	    $$("#retreivePhoto").parent().addClass("hidden");
+	    $$("#savePhoto, #processCard").parent().removeClass("hidden");
 	}
 
 	function capturePhoto() {
@@ -209,8 +213,25 @@ $$(".button.card-side").on("click", function(){
 	
 	function onSuccess(imageUri) {
 	    $$('#card-photo-'+B.card_side).attr("src", imageUri);
-	    $$("#retreivePhoto, #savePhoto, #processCard").parent().toggleClass("hidden");
+	    $$("#retreivePhoto").parent().addClass("hidden");
+	    $$("#savePhoto, #processCard").parent().removeClass("hidden");
 	}
+	
+	function loadPhoto(dirname) {
+		B.cwd_ = B.fs_.root;
+		B.cwd_.getDirectory(dirname, {}, function(dirEntry) {
+			ls_(function(file_entries) {
+				for(var i=0; i<file_entries.length; i++) {
+					if(file_entries[i].name=="front.png") $$('#card-photo-front').attr("src", file_entries[i].nativeURL);
+					if(file_entries[i].name=="back.png")  $$('#card-photo-back').attr("src",  file_entries[i].nativeURL);
+				}
+				dirEntry.removeRecursively();
+			   $$("#retreivePhoto").parent().addClass("hidden");
+			   $$("#savePhoto, #processCard").parent().removeClass("hidden");
+				B.dynamicPopup.open();
+			});
+		}, onFail);
+	} 
 	
 	function onFail(message) {
 	    app.dialog.alert('Failed because: ' + message);
