@@ -165,8 +165,7 @@ $$(".button.card-side").on("click", function(){
 								}
 								
 								var dirDate = new Date(parseInt(dirEntry.name));
-								
-								$$("#listPhoto").append('<li onClick="loadPhoto('+dirEntry.name+')" class="item-content">\
+								$$("#listPhoto").append('<li onClick="loadPhoto(\''+dirEntry.name+'\')" class="item-content">\
 							 <div class="item-inner item-cell">\
 							 	<div class="item-row">\
 							      <div class="item-cell">'+dirDate.toString()+'</div>\
