@@ -162,16 +162,16 @@ $$(".button.card-side").on("click", function(){
 								
 								var dirDate = new Date(parseInt(dirEntry.name));
 								
-								$$("#listPhoto").append('<li>\
-						  <a href="#" onClick="loadPhoto('+dirEntry.name+')" class="item-link item-content">\
-							 <div class="item-inner">\
-								<div class="item-title">\
-									<div class="item-header">'+dirDate.toString()+'</div>\
-								</div>\
-						    	<div class="item-media"><img src="'+ frontfile +'" height="80"/></div>\
-						    	<div class="item-media"><img src="'+ backfile  +'" height="80"/></div>\
+								$$("#listPhoto").append('<li onClick="loadPhoto('+dirEntry.name+')" class="item-content">\
+							 <div class="item-inner item-cell">\
+							 	<div class="item-row">\
+							      <div class="item-cell">'+dirDate.toString()+'</div>\
+							    </div>\
+							    <div class="item-row">\
+							      <div class="item-cell"><img src="'+ frontfile +'" height="80"/></div>\
+							      <div class="item-cell"><img src="'+ backfile  +'" height="80"/></div>\
+							    </div>\
 						    </div>\
-						  </a>\
 						</li>')
 
 							}
