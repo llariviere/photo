@@ -60,8 +60,8 @@ $$(".button.card-side").on("click", function(){
 	
 	function savePhoto() {
 		var ImageUri = { 
-			front:$$('#card-photo-front').css("background-image").replace(")","").replace("url(",""),
-			back:$$('#card-photo-back').css("background-image").replace(")","").replace("url(","")
+			front:$$('#card-photo-front').attr("src"),
+			back:$$('#card-photo-back').attr("src")
 		}
 		var now = Date.now();
 		B.dirname = now.toString();
@@ -82,7 +82,7 @@ $$(".button.card-side").on("click", function(){
 					}, onFail1);
 				}, onFail2);
 			}, onFail3);
-			$$('#card-photo-front').css({"background-image":"none"});
+			$$('#card-photo-front').attr("src","");
 		}
 		
 		if (ImageUri.back) {
@@ -99,7 +99,7 @@ $$(".button.card-side").on("click", function(){
 		         }, onFail1);
 				}, onFail2);
 			}, onFail3);
-			$$('#card-photo-back').css({"background-image":"none"});
+			$$('#card-photo-back').attr("src","");
 		}
 	}
 	
@@ -192,7 +192,7 @@ $$(".button.card-side").on("click", function(){
 	}
 	
 	function onSuccess(imageUri) {
-	    $$('#card-photo-'+B.card_side).css({"background-image":"url("+imageUri+")"});
+	    $$('#card-photo-'+B.card_side).attr("src", imageUri);
 	    $$("#retreivePhoto, #savePhoto, #processCard").parent().toggleClass("hidden");
 	}
 	
