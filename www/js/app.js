@@ -118,12 +118,16 @@ $$(".button.card-side").on("click", function(){
            	 } else {
            	 	//html.push('<div><span class="">', entry.name, '</span></div>');
            	 	B.dirname = entry.name;
+           	 	
+           	 	console.log("B.dirname = "+B.dirname)
+           	 	
            	 	B.cwd_ = B.fs_.root;
-
 					B.cwd_.getDirectory(B.dirname, {}, function(dirEntry) {
-						B.cwd_ = dirEntry;
-						B.frontfile = '', B.backfile = '';
+						B.cwd_ = dirEntry, B.frontfile = '', B.backfile = '';
 						ls_(function(file_entries) {
+							
+           	 			console.log("file_entries.length = "+file_entries.length)
+           	 			
 							if (file_entries.length) {
 								for(var i=0; i<file_entries.length; i++) {
 									if(file_entries[i].name=="front.png") B.frontfile = file_entries[i].nativeURL;
@@ -158,7 +162,7 @@ $$(".button.card-side").on("click", function(){
 		  content: 
 '<div class="popup">\
 	<div class="block">\
-		<p>Popup created dynamically.</p>\
+		<p>List of saved card photos.</p>\
 		<p><a href="#" class="link popup-close">Close</a></p>\
 	</div>\
 	<div class="list">\
