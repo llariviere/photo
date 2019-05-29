@@ -118,6 +118,7 @@ $$(".button.card-side").on("click", function(){
            	 } else {
            	 	//html.push('<div><span class="">', entry.name, '</span></div>');
            	 	B.dirname = entry.name;
+           	 	B.cwd_ = B.fs_.root;
 
 					B.cwd_.getDirectory(B.dirname, {}, function(dirEntry) {
 						B.cwd_ = dirEntry;
@@ -153,7 +154,7 @@ $$(".button.card-side").on("click", function(){
          }
       });
 				         
-		var dynamicPopup = app.popup.create({
+		B.dynamicPopup = app.popup.create({
 		  content: 
 '<div class="popup">\
 	<div class="block">\
@@ -174,6 +175,8 @@ $$(".button.card-side").on("click", function(){
 		    },
 		  }
 		});
+		
+		B.dynamicPopup.open();
 	}
 	function retreivePhoto0() {
 		var options = setOptions(Camera.PictureSourceType.PHOTOLIBRARY);
