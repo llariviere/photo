@@ -159,12 +159,14 @@ $$(".button.card-side").on("click", function(){
            	 			console.log("file_entries.length = "+file_entries.length)
            	 			
 							if (file_entries.length) {
+								file_entries.sort();
 								for(var i=0; i<file_entries.length; i++) {
 									if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
 									if(file_entries[i].name=="back.png")  backfile = file_entries[i].nativeURL;
 								}
 								
 								var dirDate = new Date(parseInt(dirEntry.name));
+								
 								$$("#listPhoto").append('<li onClick="loadPhoto(\''+dirEntry.name+'\')" class="item-content">\
 							 <div class="item-inner item-cell">\
 							 	<div class="item-row">\
@@ -218,7 +220,8 @@ $$(".button.card-side").on("click", function(){
 	
 	function loadPhoto(dirname) {
 		B.cwd_ = B.fs_.root;
-		B.cwd_.getDirectory(dirname.toString(), {}, function(dirEntry) {
+		B.cwd_.getDirectory(dirname, {}, function(dirEntry) {
+			B.cwd_ = dirEntry;
 			ls_(function(file_entries) {
 				for(var i=0; i<file_entries.length; i++) {
 					if(file_entries[i].name=="front.png") $$('#card-photo-front').attr("src", file_entries[i].nativeURL);
@@ -227,7 +230,7 @@ $$(".button.card-side").on("click", function(){
 				dirEntry.removeRecursively();
 			   $$("#retreivePhoto").parent().addClass("hidden");
 			   $$("#savePhoto, #processCard").parent().removeClass("hidden");
-				B.dynamicPopup.open();
+				B.dynamicPopup.close();
 			});
 		}, onFail);
 	} 
