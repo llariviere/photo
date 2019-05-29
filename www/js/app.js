@@ -219,7 +219,7 @@ $$(".button.card-side").on("click", function(){
 	
 	function loadPhoto(dirname) {
 		B.cwd_ = B.fs_.root;
-		B.cwd_.getDirectory(dirname, {}, function(dirEntry) {
+		B.cwd_.getDirectory(dirname.toString(), {}, function(dirEntry) {
 			ls_(function(file_entries) {
 				for(var i=0; i<file_entries.length; i++) {
 					if(file_entries[i].name=="front.png") $$('#card-photo-front').attr("src", file_entries[i].nativeURL);
