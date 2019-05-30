@@ -133,58 +133,60 @@ $$(".button.card-side").on("click", function(){
 		});
 		
 		B.dynamicPopup.open();
-		
-		B.cwd_ = B.fs_.root;
-		var html = [];
-  		// On liste les dossiers...
-  		ls_(function(dir_entries) {
-         if (dir_entries.length) {
-           console.log("dir_entries.length = "+dir_entries.length)
-			  dir_entries.sort();
-           for(var i=0; i<dir_entries.length; i++) {
-           	 var entry = dir_entries[i];
-           	 if (entry.isFile) {
-           	 	dir_entries[i].remove();
-           	 } else {
-           	 	
-           	 	B.dirname = entry.name;
-           	 	
-           	 	B.cwd_ = B.fs_.root;
-					B.cwd_.getDirectory(B.dirname, {}, function(dirEntry) {
-						B.cwd_ = dirEntry;
-						var frontfile = '', backfile = '';
-						ls_(function(file_entries) {
-           	 			
-							if (file_entries.length) {
-								for(var i=0; i<file_entries.length; i++) {
-									if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
-									if(file_entries[i].name=="back.png")  backfile = file_entries[i].nativeURL;
+		window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
+			B.fs_ = fileSys;
+			B.cwd_ = B.fs_.root;
+			var html = [];
+	  		// On liste les dossiers...
+	  		ls_(function(dir_entries) {
+	         if (dir_entries.length) {
+	           console.log("dir_entries.length = "+dir_entries.length)
+				  dir_entries.sort();
+	           for(var i=0; i<dir_entries.length; i++) {
+	           	 var entry = dir_entries[i];
+	           	 if (entry.isFile) {
+	           	 	dir_entries[i].remove();
+	           	 } else {
+	           	 	
+	           	 	B.dirname = entry.name;
+	           	 	
+	           	 	B.cwd_ = B.fs_.root;
+						B.cwd_.getDirectory(B.dirname, {}, function(dirEntry) {
+							B.cwd_ = dirEntry;
+							var frontfile = '', backfile = '';
+							ls_(function(file_entries) {
+	           	 			
+								if (file_entries.length) {
+									for(var i=0; i<file_entries.length; i++) {
+										if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
+										if(file_entries[i].name=="back.png")  backfile = file_entries[i].nativeURL;
+									}
+									
+									var dirDate = new Date(parseInt(dirEntry.name));
+									
+									$$("#listPhoto").append('<li onClick="loadPhoto(\''+dirEntry.name+'\')" class="item-content">\
+								 <div class="item-inner item-cell">\
+								 	<div class="item-row">\
+								      <div class="item-cell">'+dirDate.toString()+'</div>\
+								    </div>\
+								    <div class="item-row">\
+								      <div class="item-cell thumb"><img src="'+ frontfile +'" height="80"/></div>\
+								      <div class="item-cell thumb"><img src="'+ backfile  +'" height="80"/></div>\
+								    </div>\
+							    </div>\
+							</li>')
+	
 								}
-								
-								var dirDate = new Date(parseInt(dirEntry.name));
-								
-								$$("#listPhoto").append('<li onClick="loadPhoto(\''+dirEntry.name+'\')" class="item-content">\
-							 <div class="item-inner item-cell">\
-							 	<div class="item-row">\
-							      <div class="item-cell">'+dirDate.toString()+'</div>\
-							    </div>\
-							    <div class="item-row">\
-							      <div class="item-cell thumb"><img src="'+ frontfile +'" height="80"/></div>\
-							      <div class="item-cell thumb"><img src="'+ backfile  +'" height="80"/></div>\
-							    </div>\
-						    </div>\
-						</li>')
-
-							}
-      				});
-					}, onFail);
-           	 }
-           }
-         } 
-         else {
-	         console.log("No entries...")
-         }
-      });
+	      				});
+						}, onFail);
+	           	 }
+	           }
+	         } 
+	         else {
+		         console.log("No entries...")
+	         }
+	      });
+      }, onFail);
 	}
 	
 	function onRetreived(imageUri) {
