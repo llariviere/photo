@@ -140,26 +140,22 @@ $$(".button.card-side").on("click", function(){
   		ls_(function(dir_entries) {
          if (dir_entries.length) {
            console.log("dir_entries.length = "+dir_entries.length)
+			  dir_entries.sort();
            for(var i=0; i<dir_entries.length; i++) {
            	 var entry = dir_entries[i];
            	 if (entry.isFile) {
-           	 	
+           	 	dir_entries[i].remove();
            	 } else {
            	 	
            	 	B.dirname = entry.name;
-           	 	
-           	 	console.log("B.dirname = "+B.dirname)
            	 	
            	 	B.cwd_ = B.fs_.root;
 					B.cwd_.getDirectory(B.dirname, {}, function(dirEntry) {
 						B.cwd_ = dirEntry;
 						var frontfile = '', backfile = '';
 						ls_(function(file_entries) {
-							
-           	 			console.log("file_entries.length = "+file_entries.length)
            	 			
 							if (file_entries.length) {
-								file_entries.sort();
 								for(var i=0; i<file_entries.length; i++) {
 									if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
 									if(file_entries[i].name=="back.png")  backfile = file_entries[i].nativeURL;
@@ -173,8 +169,8 @@ $$(".button.card-side").on("click", function(){
 							      <div class="item-cell">'+dirDate.toString()+'</div>\
 							    </div>\
 							    <div class="item-row">\
-							      <div class="item-cell"><img src="'+ frontfile +'" height="80"/></div>\
-							      <div class="item-cell"><img src="'+ backfile  +'" height="80"/></div>\
+							      <div class="item-cell thumb"><img src="'+ frontfile +'" height="80"/></div>\
+							      <div class="item-cell thumb"><img src="'+ backfile  +'" height="80"/></div>\
 							    </div>\
 						    </div>\
 						</li>')
@@ -191,14 +187,9 @@ $$(".button.card-side").on("click", function(){
       });
 	}
 	
-	function retreivePhoto0() {
-		var options = setOptions(Camera.PictureSourceType.PHOTOLIBRARY);
-		navigator.camera.getPicture(onRetreived, onFail, options);
-	}
-	
 	function onRetreived(imageUri) {
 		 $$('#card-photo-'+B.card_side).attr("src", imageUri);
-	    $$("#retreivePhoto").parent().addClass("hidden");
+	    //$$("#retreivePhoto").parent().addClass("hidden");
 	    $$("#savePhoto, #processCard").parent().removeClass("hidden");
 	}
 
@@ -214,7 +205,7 @@ $$(".button.card-side").on("click", function(){
 	
 	function onSuccess(imageUri) {
 	    $$('#card-photo-'+B.card_side).attr("src", imageUri);
-	    $$("#retreivePhoto").parent().addClass("hidden");
+	    //$$("#retreivePhoto").parent().addClass("hidden");
 	    $$("#savePhoto, #processCard").parent().removeClass("hidden");
 	}
 	
@@ -228,7 +219,7 @@ $$(".button.card-side").on("click", function(){
 					if(file_entries[i].name=="back.png")  $$('#card-photo-back').attr("src",  file_entries[i].nativeURL);
 				}
 				dirEntry.removeRecursively();
-			   $$("#retreivePhoto").parent().addClass("hidden");
+			   //$$("#retreivePhoto").parent().addClass("hidden");
 			   $$("#savePhoto, #processCard").parent().removeClass("hidden");
 				B.dynamicPopup.close();
 			});
