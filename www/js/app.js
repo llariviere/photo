@@ -114,7 +114,7 @@ $$(".button.card-side").on("click", function(){
 		  content: 
 '<div class="popup">\
 	<div class="block">\
-		<p>List of saved card photos.</p>\
+		<p>List of saved cards.</p>\
 		<p><a href="#" class="link popup-close">Close</a></p>\
 	</div>\
 	<div class="list">\
