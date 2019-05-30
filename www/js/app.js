@@ -108,13 +108,13 @@ $$(".button.card-side").on("click", function(){
 		}
 	}
 	
-	function retreivePhoto() {
+	function listPhoto() {
 		
 		B.dynamicPopup = app.popup.create({
 		  content: 
 '<div class="popup">\
 	<div class="block">\
-		<p>List of saved cards.</p>\
+		<p>List of saved card photos.</p>\
 		<p><a href="#" class="link popup-close">Close</a></p>\
 	</div>\
 	<div class="list">\
@@ -170,8 +170,8 @@ $$(".button.card-side").on("click", function(){
 								      <div class="item-cell">'+dirDate.toString()+'</div>\
 								    </div>\
 								    <div class="item-row">\
-								      <div class="item-cell thumb"><img src="'+ frontfile +'" height="80"/></div>\
-								      <div class="item-cell thumb"><img src="'+ backfile  +'" height="80"/></div>\
+								      <div class="item-cell thumb"><img src="'+ frontfile +'" /></div>\
+								      <div class="item-cell thumb"><img src="'+ backfile  +'" /></div>\
 								    </div>\
 							    </div>\
 							</li>')
@@ -188,12 +188,6 @@ $$(".button.card-side").on("click", function(){
 	      });
       }, onFail);
 	}
-	
-	function onRetreived(imageUri) {
-		 $$('#card-photo-'+B.card_side).attr("src", imageUri);
-	    //$$("#retreivePhoto").parent().addClass("hidden");
-	    $$("#savePhoto, #processCard").parent().removeClass("hidden");
-	}
 
 	function capturePhoto() {
 	    if (typeof Camera === "undefined") {
@@ -201,14 +195,12 @@ $$(".button.card-side").on("click", function(){
 	    }
 	    else {
 	    	var options = setOptions(Camera.PictureSourceType.CAMERA);
-	    	navigator.camera.getPicture(onSuccess, onFail, options);
+	    	navigator.camera.getPicture( function(imageUri) {
+			    $$('#card-photo-'+B.card_side).attr("src", imageUri);
+			    //$$("#retreivePhoto").parent().addClass("hidden");
+			    $$("#savePhoto, #processCard").parent().removeClass("hidden");
+			}, onFail, options);
 	    }
-	}
-	
-	function onSuccess(imageUri) {
-	    $$('#card-photo-'+B.card_side).attr("src", imageUri);
-	    //$$("#retreivePhoto").parent().addClass("hidden");
-	    $$("#savePhoto, #processCard").parent().removeClass("hidden");
 	}
 	
 	function loadPhoto(dirname) {
