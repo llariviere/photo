@@ -40,7 +40,7 @@ $$(".button.card-side").on("click", function(){
 });
 
 	$$("#capturePhoto").on("click", capturePhoto);
-	$$("#retreivePhoto").on("click", retreivePhoto);
+	$$("#listPhoto").on("click", listPhoto);
 	$$("#savePhoto").on("click", savePhoto);
 	
 	function setOptions(srcType) {
