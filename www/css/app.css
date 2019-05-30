@@ -9,7 +9,8 @@
 	margin-right: auto;
 	border: solid 1px rgba(150,150,150,1);
 	height: 200px;
-	width: 300px;
+	width: calc(100% - 30px);
+	max-width: 350px;
 	border-radius: 5px;
 	overflow: hidden;
 }
