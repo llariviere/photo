@@ -118,7 +118,7 @@ $$(".button.card-side").on("click", function(){
 		<p><a href="#" class="link popup-close">Close</a></p>\
 	</div>\
 	<div class="list">\
-		<ul id="listPhoto"></ul>\
+		<ul id="ulPhoto"></ul>\
 	</div>\
 </div>',
 		  // Events
@@ -164,7 +164,7 @@ $$(".button.card-side").on("click", function(){
 									
 									var dirDate = new Date(parseInt(dirEntry.name));
 									
-									$$("#listPhoto").append('<li onClick="loadPhoto(\''+dirEntry.name+'\')" class="item-content">\
+									$$("#ulPhoto").append('<li onClick="loadPhoto(\''+dirEntry.name+'\')" class="item-content">\
 								 <div class="item-inner item-cell">\
 								 	<div class="item-row">\
 								      <div class="item-cell">'+dirDate.toString()+'</div>\
