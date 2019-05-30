@@ -141,7 +141,7 @@ $$(".button.card-side").on("click", function(){
 	  		ls_(function(dir_entries) {
 	         if (dir_entries.length) {
 	           console.log("dir_entries.length = "+dir_entries.length)
-				  dir_entries.sort();
+				  dir_entries.sort(function (a,b) { return a-b; });
 	           for(var i=0; i<dir_entries.length; i++) {
 	           	 var entry = dir_entries[i];
 	           	 if (entry.isFile) {
