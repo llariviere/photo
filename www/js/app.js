@@ -118,7 +118,7 @@ $$(".button.card-side").on("click", function(){
 		<p><a href="#" class="link popup-close">Close</a></p>\
 	</div>\
 	<div class="list">\
-		<ul id="listPhoto"></ul>\
+		<ul id="ulPhoto"></ul>\
 	</div>\
 </div>',
 		  // Events
@@ -157,8 +157,9 @@ $$(".button.card-side").on("click", function(){
 							ls_(function(file_entries) {
 	           	 			
 								if (file_entries.length) {
-									console.log(file_entries[i]);
+									
 									for(var i=0; i<file_entries.length; i++) {
+										console.log(file_entries[i]);
 										if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
 										if(file_entries[i].name=="back.png")  backfile = file_entries[i].nativeURL;
 									}
