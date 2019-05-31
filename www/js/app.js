@@ -120,7 +120,7 @@ $$(".button.card-side").on("click", function(){
 		
 		B.dynamicPopup = app.popup.create({
 		  content: 
-'<div class="popup">\
+'<div class="popup" style="overflow-y: scroll">\
 		<div class="navbar">\
       <div class="navbar-inner">\
         <div class="left"></div>\
@@ -128,7 +128,7 @@ $$(".button.card-side").on("click", function(){
         <div class="right"><a href="#" class="link popup-close">Close</a></div>\
       </div>\
     </div>\
-	<div class="list" style="overflow-y: scroll">\
+	<div class="list">\
 		<ul id="ulPhoto"></ul>\
 	</div>\
 </div>',
