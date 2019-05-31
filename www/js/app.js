@@ -110,9 +110,29 @@ $$(".button.card-side").on("click", function(){
 	
 	function listPhoto() {
 		
-		$$("#ulPhoto").html('');
-		mainView.router.load({pageName: 'photos'});
+		B.dynamicPopup = app.popup.create({
+		  content: 
+'<div class="popup">\
+	<div class="block">\
+		<p>List of saved card photos.</p>\
+		<p><a href="#" class="link popup-close">Close</a></p>\
+	</div>\
+	<div class="list">\
+		<ul id="listPhoto"></ul>\
+	</div>\
+</div>',
+		  // Events
+		  on: {
+		    open: function (popup) {
+		      console.log('Popup open');
+		    },
+		    opened: function (popup) {
+		      console.log('Popup opened');
+		    },
+		  }
+		});
 		
+		B.dynamicPopup.open();
 		window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function(fileSys) {
 			B.fs_ = fileSys;
 			B.cwd_ = B.fs_.root;
@@ -137,8 +157,8 @@ $$(".button.card-side").on("click", function(){
 							ls_(function(file_entries) {
 	           	 			
 								if (file_entries.length) {
+									console.log(file_entries[i]);
 									for(var i=0; i<file_entries.length; i++) {
-										console.log(file_entries[i]);
 										if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
 										if(file_entries[i].name=="back.png")  backfile = file_entries[i].nativeURL;
 									}
