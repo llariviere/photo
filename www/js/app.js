@@ -120,11 +120,14 @@ $$(".button.card-side").on("click", function(){
 		
 		B.dynamicPopup = app.popup.create({
 		  content: 
-'<div class="popup">\
-	<div class="block">\
-		<p>List of saved card photos.</p>\
-		<p><a href="#" class="link popup-close">Close</a></p>\
-	</div>\
+'<div class="popup" style="overflow-y: automatic">\
+		<div class="navbar">\
+      <div class="navbar-inner">\
+        <div class="left"></div>\
+        <div class="title">List of saved card photos</div>\
+        <div class="right"><a href="#" class="link popup-close">Close</a></div>\
+      </div>\
+    </div>\
 	<div class="list">\
 		<ul id="ulPhoto"></ul>\
 	</div>\
@@ -149,7 +152,7 @@ $$(".button.card-side").on("click", function(){
 	  		ls_(function(dir_entries) {
 	         if (dir_entries.length) {
 	           console.log("dir_entries.length = "+dir_entries.length)
-				  dir_entries.sort(function (a,b) { return a-b; });
+	           
 	           for(var i=0; i<dir_entries.length; i++) {
 	           	 var entry = dir_entries[i];
 	           	 if (entry.isFile) {
@@ -267,17 +270,14 @@ $$(".button.card-side").on("click", function(){
     if (!B.fs_) {
       return;
     }
-
-    // Read contents of current working directory. According to spec, need to
-    // keep calling readEntries() until length of result array is 0. We're
-    // guarenteed the same entry won't be returned again.
+    
     var entries = [];
     var reader = B.cwd_.createReader();
 
     var readEntries = function() {
       reader.readEntries(function(results) {
         if (!results.length) {
-          entries = entries.sort();
+          entries.sort();
           successCallback(entries);
         } else {
           entries = entries.concat(util.toArray(results));
