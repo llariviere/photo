@@ -118,7 +118,7 @@ $$(".button.card-side").on("click", function(){
 		<p><a href="#" class="link popup-close">Close</a></p>\
 	</div>\
 	<div class="list">\
-		<ul id="ulPhoto"></ul>\
+		<ul id="listPhoto"></ul>\
 	</div>\
 </div>',
 		  // Events
@@ -159,7 +159,7 @@ $$(".button.card-side").on("click", function(){
 								if (file_entries.length) {
 									
 									for(var i=0; i<file_entries.length; i++) {
-										console.log(file_entries[i]);
+										
 										if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
 										if(file_entries[i].name=="back.png")  backfile = file_entries[i].nativeURL;
 									}
@@ -211,11 +211,11 @@ $$(".button.card-side").on("click", function(){
 			B.cwd_ = dirEntry;
 			ls_(function(file_entries) {
 				for(var i=0; i<file_entries.length; i++) {
-					console.log(file_entries[i]);
+					
 					if(file_entries[i].name=="front.png") $$('#card-photo-front').attr("src", file_entries[i].nativeURL);
 					if(file_entries[i].name=="back.png")  $$('#card-photo-back').attr("src",  file_entries[i].nativeURL);
 				}
-				dirEntry.removeRecursively();
+				//dirEntry.removeRecursively();
 			   //$$("#retreivePhoto").parent().addClass("hidden");
 			   $$("#savePhoto, #processCard").parent().removeClass("hidden");
 				B.dynamicPopup.close();
