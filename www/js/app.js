@@ -59,6 +59,14 @@ $$(".button.card-side").on("click", function(){
 	}
 	
 	function savePhoto() {
+		
+		if (B.fromfile) {
+			$$('#card-photo-front').attr("src","");
+			$$('#card-photo-back').attr("src","");
+			$$(".button.card-side.back").trigger("click");
+			$$(".button.card-side.front").trigger("click");
+			return false;
+		}
 		var ImageUri = { 
 			front:$$('#card-photo-front').attr("src"),
 			back:$$('#card-photo-back').attr("src")
@@ -199,6 +207,8 @@ $$(".button.card-side").on("click", function(){
 	    	var options = setOptions(Camera.PictureSourceType.CAMERA);
 	    	navigator.camera.getPicture( function(imageUri) {
 			    $$('#card-photo-'+B.card_side).attr("src", imageUri);
+			    
+				 B.fromfile = false;
 			    //$$("#listPhoto").parent().addClass("hidden");
 			    $$("#savePhoto, #processPhoto").parent().removeClass("hidden");
 			}, onFail, options);
@@ -210,15 +220,21 @@ $$(".button.card-side").on("click", function(){
 		B.cwd_.getDirectory(dirname, {}, function(dirEntry) {
 			B.cwd_ = dirEntry;
 			ls_(function(file_entries) {
+				var frontfile = '', backfile = '';
 				for(var i=0; i<file_entries.length; i++) {
-					
-					if(file_entries[i].name=="front.png") $$('#card-photo-front').attr("src", file_entries[i].nativeURL);
-					if(file_entries[i].name=="back.png")  $$('#card-photo-back').attr("src",  file_entries[i].nativeURL);
+					if(file_entries[i].name=="front.png") frontfile = file_entries[i].nativeURL;
+					if(file_entries[i].name=="back.png")  backfile  = file_entries[i].nativeURL;
 				}
+				$$('#card-photo-front').attr("src", frontfile);
+				$$('#card-photo-back').attr("src",  backfile);
+				$$(".button.card-side.front").trigger("click");
+				
 				//dirEntry.removeRecursively();
 			   //$$("#listPhoto").parent().addClass("hidden");
+			   
 			   $$("#processPhoto").parent().removeClass("hidden");
 				B.dynamicPopup.close();
+				B.fromfile = true;
 			});
 		}, onFail);
 	} 
