@@ -80,7 +80,7 @@ $$(".button.card-side").on("click", function(){
 							console.log("front.png moved!");
 							$$('#card-photo-front').attr("src","");
 					   	$$("#savePhoto, #processPhoto").parent().addClass("hidden");
-					   	$$("#retreivePhoto").parent().removeClass("hidden");
+					   	$$("#listPhoto").parent().removeClass("hidden");
 						}, onFail0);
 					}, onFail1);
 				}, onFail2);
@@ -100,7 +100,7 @@ $$(".button.card-side").on("click", function(){
 							console.log("back.png moved!");
 							$$('#card-photo-back').attr("src","");
 					   	$$("#savePhoto, #processPhoto").parent().addClass("hidden");
-					   	$$("#retreivePhoto").parent().removeClass("hidden");
+					   	$$("#listPhoto").parent().removeClass("hidden");
 						}, onFail0);
 		         }, onFail1);
 				}, onFail2);
@@ -199,8 +199,8 @@ $$(".button.card-side").on("click", function(){
 	    	var options = setOptions(Camera.PictureSourceType.CAMERA);
 	    	navigator.camera.getPicture( function(imageUri) {
 			    $$('#card-photo-'+B.card_side).attr("src", imageUri);
-			    //$$("#retreivePhoto").parent().addClass("hidden");
-			    $$("#savePhoto, #processCard").parent().removeClass("hidden");
+			    //$$("#listPhoto").parent().addClass("hidden");
+			    $$("#savePhoto, #processPhoto").parent().removeClass("hidden");
 			}, onFail, options);
 	    }
 	}
@@ -216,8 +216,8 @@ $$(".button.card-side").on("click", function(){
 					if(file_entries[i].name=="back.png")  $$('#card-photo-back').attr("src",  file_entries[i].nativeURL);
 				}
 				//dirEntry.removeRecursively();
-			   //$$("#retreivePhoto").parent().addClass("hidden");
-			   $$("#savePhoto, #processCard").parent().removeClass("hidden");
+			   //$$("#listPhoto").parent().addClass("hidden");
+			   $$("#processPhoto").parent().removeClass("hidden");
 				B.dynamicPopup.close();
 			});
 		}, onFail);
